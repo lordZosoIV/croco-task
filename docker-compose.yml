@@ -1,0 +1,17 @@
+version: '3.9'
+
+services:
+  postgres-instance:
+    image: postgres:13.6-bullseye
+    restart: always
+    container_name: postgres-instance
+    hostname: postgres-instance
+    volumes:
+      - ./db-data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_PASSWORD: my_pass
+      POSTGRES_USER: my_user
+      POSTGRES_DB: user_db
+    ports:
+      - "5433:5432"
+                          
