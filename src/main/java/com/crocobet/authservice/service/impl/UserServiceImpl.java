@@ -37,6 +37,7 @@ public class UserServiceImpl implements UserService {
      * @return The registered user entity.
      */
     @Transactional
+    @CachePut(key = "#request.email", value = "user")
     public UserEntity registerUser(UserRegistrationRequest request, RoleEntity role) {
         UserEntity userEntity = UserEntity.builder()
                 .name(request.getName())
