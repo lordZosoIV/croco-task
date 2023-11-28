@@ -18,7 +18,7 @@ public interface UserService {
 
     List<UserEntity> getAllByActive(Boolean active);
 
-    UserEntity update(UserRegistrationRequest request);
+    UserEntity update(UserRegistrationRequest request, Long id);
 
     @Transactional
     void deactivate();

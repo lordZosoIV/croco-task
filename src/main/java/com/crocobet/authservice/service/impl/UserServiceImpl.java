@@ -92,8 +92,8 @@ public class UserServiceImpl implements UserService {
      */
     @Transactional
     @CachePut(key = "#request.email", value = "user")
-    public UserEntity update(UserRegistrationRequest request) {
-        UserEntity user = getById(SecurityUtils.getAuthenticatedUserId());
+    public UserEntity update(UserRegistrationRequest request, Long id) {
+        UserEntity user = getById(id);
         if (!user.getActive()) {
             throw new HandledException(String.format("User with email '%s' is deleted", user.getEmail()));
         }

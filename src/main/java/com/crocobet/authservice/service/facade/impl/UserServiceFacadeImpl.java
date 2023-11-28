@@ -4,6 +4,7 @@ import com.crocobet.authservice.model.request.UserRegistrationRequest;
 import com.crocobet.authservice.model.response.UserResponse;
 import com.crocobet.authservice.service.UserService;
 import com.crocobet.authservice.service.facade.UserServiceFacade;
+import com.crocobet.authservice.util.SecurityUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -31,7 +32,7 @@ public class UserServiceFacadeImpl implements UserServiceFacade {
      */
     @Override
     public UserResponse update(UserRegistrationRequest request) {
-        return UserResponse.transform(userService.update(request));
+        return UserResponse.transform(userService.update(request, SecurityUtils.getAuthenticatedUserId()));
     }
 
     /**

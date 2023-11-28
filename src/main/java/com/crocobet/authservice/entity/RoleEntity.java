@@ -2,10 +2,7 @@ package com.crocobet.authservice.entity;
 
 import com.crocobet.authservice.entity.model.Role;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import lombok.experimental.FieldNameConstants;
 
 import java.io.Serializable;
@@ -16,6 +13,7 @@ import java.io.Serializable;
 @Setter
 @Entity
 @Table(name = "roles")
+@Builder
 @FieldNameConstants
 public class RoleEntity implements Serializable {
     @Id
