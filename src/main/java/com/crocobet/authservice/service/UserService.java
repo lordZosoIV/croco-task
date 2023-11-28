@@ -9,6 +9,7 @@ import com.crocobet.authservice.repository.UserRepository;
 import com.crocobet.authservice.specs.UserSpecifications;
 import com.crocobet.authservice.util.SecurityUtils;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -106,6 +107,7 @@ public class UserService {
         userRepository.save(user);
     }
 
+    @Cacheable(value = "userCache", key = "#id")
     public UserEntity getById(Long id) {
         return userRepository.findById(id).orElseThrow(() -> new HandledException("user not found"));
     }
