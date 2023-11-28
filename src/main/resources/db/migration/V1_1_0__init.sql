@@ -1,12 +1,12 @@
 CREATE TABLE users
 (
-    id           SERIAL PRIMARY KEY,
-    email        VARCHAR   NOT NULL UNIQUE,
-    name         VARCHAR   NOT NULL UNIQUE,
-    password     VARCHAR   NOT NULL,
-    active       BOOLEAN   NOT NULL,
-    created_at   TIMESTAMP NOT NULL DEFAULT NOW(),
-    updated_at   TIMESTAMP NOT NULL DEFAULT NOW()
+    id         SERIAL PRIMARY KEY,
+    email      VARCHAR   NOT NULL UNIQUE,
+    name       VARCHAR   NOT NULL,
+    password   VARCHAR   NOT NULL,
+    active     BOOLEAN   NOT NULL,
+    created_at TIMESTAMP NOT NULL DEFAULT NOW(),
+    updated_at TIMESTAMP NOT NULL DEFAULT NOW()
 );
 
 CREATE TABLE roles

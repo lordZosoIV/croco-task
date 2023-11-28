@@ -2,114 +2,35 @@ package com.crocobet.authservice.service;
 
 import com.crocobet.authservice.entity.RoleEntity;
 import com.crocobet.authservice.entity.UserEntity;
-import com.crocobet.authservice.exception.HandledException;
 import com.crocobet.authservice.model.request.UserRegistrationRequest;
-import com.crocobet.authservice.model.response.UserResponse;
-import com.crocobet.authservice.repository.UserRepository;
-import com.crocobet.authservice.specs.UserSpecifications;
-import com.crocobet.authservice.util.SecurityUtils;
-import lombok.RequiredArgsConstructor;
-import org.springframework.cache.annotation.Cacheable;
-import org.springframework.data.jpa.domain.Specification;
-import org.springframework.http.HttpStatus;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Service;
+import jakarta.transaction.Transactional;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
-@Service
-@RequiredArgsConstructor
-public class UserService {
+public interface UserService {
 
-    private final UserRepository userRepository;
+    UserEntity registerUser(UserRegistrationRequest request, RoleEntity role);
 
-    private final PasswordEncoder passwordEncoder;
+    UserEntity findByEmailAndPassword(String email, String password);
 
-    public UserEntity registerUser(UserRegistrationRequest request, RoleEntity role) {
-        UserEntity userEntity = UserEntity.builder()
-                .name(request.getName())
-                .email(request.getEmail())
-                .password(passwordEncoder.encode(request.getPassword()))
-                .roles(List.of(role))
-                .active(true)
-                .build();
-        return userRepository.save(userEntity);
-    }
-
-    public UserEntity findByEmailAndPassword(String email, String password) {
-        UserEntity user = userRepository.getByEmail(email);
-        if (!passwordEncoder.matches(password, user.getPassword()))
-            throw new HandledException(HttpStatus.UNAUTHORIZED, "bad credentials");
-        return user;
-    }
-
-    public UserResponse getCurrentUser() {
-        UserEntity user = getById(SecurityUtils.getAuthenticatedUserId());
-        return UserResponse.transform(user);
-    }
+    UserEntity getCurrentUser();
 
 
-    public List<UserEntity> getAllByActive(Boolean active) {
-        Specification<UserEntity> spec = UserSpecifications.isActive(active);
-        return userRepository.findAll(spec);
-    }
+    List<UserEntity> getAllByActive(Boolean active);
 
-    public UserResponse update(UserRegistrationRequest request) {
-        UserEntity user = getById(SecurityUtils.getAuthenticatedUserId());
-        user.setName(request.getName());
-        user.setPassword(passwordEncoder.encode(request.getPassword()));
-        user.setEmail(request.getEmail());
-        user = userRepository.save(user);
-        return UserResponse.transform(user);
-    }
+    UserEntity update(UserRegistrationRequest request);
 
-    public void deactivate() {
-        UserEntity user = getById(SecurityUtils.getAuthenticatedUserId());
-        user.setActive(false);
-        userRepository.save(user);
-    }
+    @Transactional
+    void deactivate();
 
+    UserEntity update(Long id, String name, String email, String password, RoleEntity role);
 
-    public UserEntity update(Long id, String name, String email, String password, RoleEntity role) {
-        UserEntity user = getById(id);
-        user.setName(name);
-        user.setPassword(passwordEncoder.encode(password));
-        user.setEmail(email);
-        if (role != null) {
-            user.setRoles(new ArrayList<>(Collections.singletonList(role)));
-        }
-        user = userRepository.save(user);
-        return user;
-    }
+    UserEntity updateRole(Long id, RoleEntity role);
 
-    public UserEntity updateRole(Long id, RoleEntity role) {
-        UserEntity user = getById(id);
-        user = updateRoles(user, new ArrayList<>(Collections.singletonList(role)));
-        return user;
-    }
+    void deactivate(Long id);
 
-    private UserEntity updateRoles(UserEntity user, List<RoleEntity> roles) {
-        user.setRoles(roles);
-        return userRepository.save(user);
-    }
+    void activate(Long id);
 
-    public void deactivate(Long id) {
-        UserEntity user = getById(id);
-        user.setActive(false);
-        userRepository.save(user);
-    }
-
-    public void activate(Long id) {
-        UserEntity user = getById(id);
-        user.setActive(true);
-        userRepository.save(user);
-    }
-
-    @Cacheable(value = "userCache", key = "#id")
-    public UserEntity getById(Long id) {
-        return userRepository.findById(id).orElseThrow(() -> new HandledException("user not found"));
-    }
+    UserEntity getById(Long id);
 
 }

@@ -23,7 +23,7 @@ public class UserInfoResponse {
     private List<Role> roles;
 
     public static List<UserInfoResponse> transform(List<UserEntity> users) {
-        if(users == null || users.isEmpty()) {
+        if (users == null || users.isEmpty()) {
             return null;
         }
         return users.stream().map(UserInfoResponse::transform).collect(Collectors.toList());

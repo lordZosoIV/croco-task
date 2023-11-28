@@ -1,7 +1,6 @@
 package com.crocobet.authservice.controller;
 
 
-import com.crocobet.authservice.model.request.UserRegistrationRequest;
 import com.crocobet.authservice.model.request.UserLoginRequest;
 import com.crocobet.authservice.model.response.UserAuthResponse;
 import com.crocobet.authservice.service.facade.AuthServiceFacade;
@@ -26,7 +25,6 @@ public class AuthController {
         UserAuthResponse authResponse = service.login(request);
         return ResponseEntity.ok(authResponse);
     }
-
 
 
 }

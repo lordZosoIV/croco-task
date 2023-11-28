@@ -24,13 +24,22 @@ public class JwtService {
     @Value("${auth.security.jwt.expiration}")
     private Long expTime;
 
-
+    /**
+     * Initialize the JWT service by configuring the signing algorithm and verifier.
+     */
     @PostConstruct
     protected void init() {
         signAlgorithm = Algorithm.HMAC256(secret);
         verifier = JWT.require(signAlgorithm).build();
     }
 
+    /**
+     * Generate an access token based on the subject and roles.
+     *
+     * @param sub   The subject of the token (usually user ID).
+     * @param roles The roles associated with the user.
+     * @return The generated access token.
+     */
     public String generateAccessToken(String sub, List<String> roles) {
         return JWT.create()
                 .withSubject(sub)
@@ -39,6 +48,12 @@ public class JwtService {
                 .sign(signAlgorithm);
     }
 
+    /**
+     * Verify the authenticity of a JWT token.
+     *
+     * @param token The JWT token to verify.
+     * @return The decoded JWT token if verification is successful.
+     */
     public DecodedJWT verify(String token) {
         return verifier.verify(token);
     }

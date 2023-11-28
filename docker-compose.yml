@@ -16,7 +16,7 @@ services:
       - "5433:5432"
 
   hazelcast:
-    image: hazelcast/hazelcast
+    image: hazelcast/hazelcast:5.0
     container_name: hazelcast
     ports:
       - "5701:5701"

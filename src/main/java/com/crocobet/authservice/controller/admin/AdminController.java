@@ -1,8 +1,6 @@
 package com.crocobet.authservice.controller.admin;
 
 
-
-import com.crocobet.authservice.entity.model.Role;
 import com.crocobet.authservice.model.request.UserRegistrationRequest;
 import com.crocobet.authservice.model.request.UserUpdateRequest;
 import com.crocobet.authservice.model.response.UserInfoResponse;
@@ -41,7 +39,7 @@ public class AdminController {
 
     @PutMapping("/{id}")
     public ResponseEntity<UserInfoResponse> updateUser(@PathVariable("id") Long id,
-                                                           @RequestBody @Valid UserUpdateRequest userUpdateRequest) {
+                                                       @RequestBody @Valid UserUpdateRequest userUpdateRequest) {
         UserInfoResponse user = service.update(id, userUpdateRequest);
         return ResponseEntity.ok(user);
     }
