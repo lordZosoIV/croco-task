@@ -14,6 +14,8 @@ services:
       POSTGRES_DB: user_db
     ports:
       - "5433:5432"
+    networks:
+      - crocobet
 
   hazelcast:
     image: hazelcast/hazelcast:5.0
@@ -21,19 +23,38 @@ services:
     ports:
       - "5701:5701"
     networks:
-      - hazelcast-net
+      - crocobet
 
   hazelcast-mgmt:
-      image: hazelcast/management-center:latest
-      container_name: hazelcast-mgmt
-      ports:
-        - "48080:8080"
-      environment:
-        - MC_DEFAULT_CLUSTER=dev
-        - MC_DEFAULT_CLUSTER_MEMBERS=hazelcast
-      networks:
-        - hazelcast-net
+    image: hazelcast/management-center:latest
+    container_name: hazelcast-mgmt
+    ports:
+      - "48080:8080"
+    environment:
+      - MC_DEFAULT_CLUSTER=dev
+      - MC_DEFAULT_CLUSTER_MEMBERS=hazelcast
+    networks:
+      - crocobet
+
+  user-management-service:
+    container_name: user-mngmnt-container
+    hostname: user-management-service
+    build: .
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres-instance:5432/user_db
+      SPRING_DATASOURCE_USERNAME: my_user
+      SPRING_DATASOURCE_PASSWORD: my_pass
+      AUTH_SECRET_KEY: secreto
+      HAZELCAST_HOST: hazelcast
+      HAZELCAST_PORT: 5701
+    depends_on:
+      - postgres-instance
+      - hazelcast
+    networks:
+      - crocobet
 
 networks:
-  hazelcast-net:
+  crocobet:
     driver: bridge
