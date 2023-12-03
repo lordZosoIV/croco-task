@@ -36,7 +36,7 @@ services:
     networks:
       - crocobet
 
-  user-management-service:
+  spring-boot-user-management-service:
     container_name: user-mngmnt-container
     hostname: user-management-service
     build: .
@@ -58,3 +58,4 @@ services:
 networks:
   crocobet:
     driver: bridge
+
