@@ -22,7 +22,7 @@ In docker 4 containers will be started:
 
 ## Default users
 
-When application is started 3 default users will already be pre-populated into database
+When application is started 2 default users will already be pre-populated into database
 
 * admin - `username: admin@test.com, password: admin`
 * user123 - `username: bla@test.com, password: client`
