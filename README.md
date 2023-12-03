@@ -45,7 +45,7 @@ swagger: http://localhost:8080/swagger-ui/index.html
 
 - **Method:** PUT
 - **Endpoint:** /api/admin/users/{id}
-- **Description:** Update user by ID, admin can update role too.
+- **Description:** Update user by ID.
 
 ### Delete User
 
@@ -63,7 +63,7 @@ swagger: http://localhost:8080/swagger-ui/index.html
 
 - **Method:** GET
 - **Endpoint:** /api/admin/users
-- **Description:** Filter users. Can be called without filters to return all users.
+- **Description:** filter players by activation status.
 
 ## User Controller
 
@@ -91,7 +91,7 @@ swagger: http://localhost:8080/swagger-ui/index.html
 
 - **Method:** POST
 - **Endpoint:** /api/auth/login
-- **Description:** Authenticate user and return access token. Deactivated users cannot login.
+- **Description:** Authenticate user and return access token. Deactivated(Deleted) users cannot login.
 
 ## Accessing Hazelcast Management Center UI
 
