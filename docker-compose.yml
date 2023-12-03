@@ -27,7 +27,7 @@ services:
 
   hazelcast-mgmt:
     image: hazelcast/management-center:latest
-    container_name: hazelcast-mgmt
+    container_name: hazelcast-management
     ports:
       - "48080:8080"
     environment:
@@ -36,8 +36,8 @@ services:
     networks:
       - crocobet
 
-  spring-boot-user-management-service:
-    container_name: user-mngmnt-container
+  user-management-service-app:
+    container_name: user-management-container
     hostname: user-management-service
     build: .
     ports:
