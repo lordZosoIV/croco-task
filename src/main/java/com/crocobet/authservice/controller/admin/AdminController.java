@@ -26,7 +26,7 @@ public class AdminController {
     }
 
     @GetMapping
-    public ResponseEntity<List<UserInfoResponse>> getAllActiveUsers(@RequestParam(required = false) Boolean active) {
+    public ResponseEntity<List<UserInfoResponse>> getUsers(@RequestParam(required = false) Boolean active) {
         List<UserInfoResponse> users = service.getAllActiveUsers(active);
         return ResponseEntity.ok(users);
     }
